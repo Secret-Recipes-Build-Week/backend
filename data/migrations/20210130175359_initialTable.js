@@ -5,6 +5,7 @@ exports.up = function (knex) {
 			t.string("firstName").notNullable();
 			t.string("lastName").notNullable();
 			t.string("email").notNullable().unique();
+			t.string("uuid").notNullable().unique();
 			t.string("password").notNullable();
 		})
 		.createTable("recipes", (t) => {
@@ -12,6 +13,7 @@ exports.up = function (knex) {
 			t.string("title").notNullable();
 			t.string("source");
 			t.boolean("private").defaultTo(false);
+			t.string("keywords");
 			t.integer("userID")
 				.notNullable()
 				.unsigned()
@@ -68,11 +70,25 @@ exports.up = function (knex) {
 				.inTable("ingredients")
 				.onDelete("RESTRICT")
 				.onUpdate("RESTRICT");
+		})
+		.createTable("recipe_instructions", (t) => {
+			t.increments();
+			t.string("recipeID")
+				.notNullable()
+				.unsigned()
+				.notNullable()
+				.references("id")
+				.inTable("recipes")
+				.onDelete("CASCADE")
+				.onUpdate("CASCADE");
+			t.integer("step");
+			t.string("text");
 		});
 };
 
 exports.down = function (knex) {
 	return knex.schema
+		.dropTableIfExists("recipe_instructions")
 		.dropTableIfExists("recipe_ingredients")
 		.dropTableIfExists("recipe_categories")
 		.dropTableIfExists("categories")

@@ -28,11 +28,15 @@ const userData = {
 	recipes: [
 		{
 			title: "",
-			categories: ["chicken", "pasta"], //breakfast, lunch, dinner, dessert
+			categories: ["chicken", "dinner"],
+			keywords: "summer, apple pie, mediterranean",
 			private: false,
 			createdBy: `${userData.firstName} ${userData.lastName}`,
 			source: "",
-			instructions: "", //large format textbox
+			instructions: [
+				{ step: 1, text: "Preheat oven to 400°" },
+				{ step: 2, text: "Chop Vegetables" },
+			],
 			ingredients: [
 				{
 					name: "Chicken",

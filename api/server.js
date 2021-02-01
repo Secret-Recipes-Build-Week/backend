@@ -6,7 +6,7 @@ const AuthRouter = require("./schemes/auth/auth-router");
 const UserRouter = require("./schemes/users/user-router");
 const RecipeRouter = require("./schemes/recipes/recipe-router");
 const CategoryRouter = require("./schemes/categories/category-router");
-const IngredientRouter = require("./schemes/ingredients/ingredient-router");
+const IngredientRouter = require("./schemes/ingredients/ingredient-router.js");
 
 const server = express();
 server.use(express.json());
@@ -14,7 +14,7 @@ server.use(helmet());
 server.use(cors());
 
 server.use("/api/auth", AuthRouter);
-server.use("/api/user/:id", UserRouter);
+server.use("/api/user", UserRouter);
 server.use("/api/recipes", RecipeRouter);
 server.use("/api/categories", CategoryRouter);
 server.use("/api/ingredients", IngredientRouter);
