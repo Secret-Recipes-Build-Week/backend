@@ -6,6 +6,7 @@
 	"scripts": {
 		"start": "node index.js",
 		"server": "nodemon index.js",
+		"production": "cross-env NODE_ENV=production knex migrate:latest && cross-env NODE_ENV=production knex seed:run",
 		"test": "cross-env NODE_ENV=testing jest api/server.test.js --watchAll --verbose --runInBand --coverage"
 	},
 	"repository": {

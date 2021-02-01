@@ -6,28 +6,6 @@ const userData = {
 	recipes: [
 		{
 			title: "",
-			categories: ["chicken", "pasta"], //breakfast, lunch, dinner, dessert
-			source: "",
-			instructions: "", //large format textbox
-			ingredients: [
-				{
-					name: "Chicken",
-					quantity: 0, //integer
-					unit: "", //cup, whole, breast,
-				},
-			],
-		},
-	],
-};
-
-const userData = {
-	firstName: "",
-	lastName: "",
-	email: "",
-	password: "",
-	recipes: [
-		{
-			title: "",
 			categories: ["chicken", "dinner"],
 			keywords: "summer, apple pie, mediterranean",
 			private: false,
@@ -41,7 +19,7 @@ const userData = {
 				{
 					name: "Chicken",
 					quantity: 0, //integer
-					unit: "", //cup, whole, breast,
+					unit: "", //cup, tablespoon
 				},
 			],
 		},
