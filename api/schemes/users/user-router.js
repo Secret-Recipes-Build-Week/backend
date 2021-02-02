@@ -12,12 +12,15 @@ router.get("/:id", async (req, res, next) => {
 	}
 });
 
-// router.get("/", async (req, res, next) => {
-// 	try {
-// 	} catch (err) {
-// 		next(err);
-// 	}
-// });
+router.post("/:id/recipes", async (req, res, next) => {
+	try {
+		const { id } = req.params;
+		const newRecipe = await Users.addRecipe(req.body, id);
+		res.status(201).json(newRecipe);
+	} catch (err) {
+		next(err);
+	}
+});
 
 // router.get("/", async (req, res, next) => {
 // 	try {
