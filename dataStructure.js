@@ -27,3 +27,10 @@ const userData = {
 		},
 	],
 };
+
+let ingredients = await db("ingredients as i")
+	.join("recipe_ingredients as ring", {
+		"i.id": "ring.ingredientID",
+	})
+	.where("ring.recipeID", recipes[i].id)
+	.select("i.name", "ring.quantity", "ring.unitType");
