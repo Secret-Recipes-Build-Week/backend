@@ -6,7 +6,7 @@ const userData = {
 	recipes: [
 		{
 			title: "",
-			categories: ["chicken", "dinner"],
+			categories: ["", ""],
 			keywords: "summer, apple pie, mediterranean",
 			private: false,
 			createdBy: `${userData.firstName} ${userData.lastName}`,
@@ -17,9 +17,9 @@ const userData = {
 			],
 			ingredients: [
 				{
-					name: "Chicken",
-					quantity: 0, //integer
-					unit: "", //cup, tablespoon
+					name: "Rice",
+					quantity: 3, //integer
+					unit: "cups", //cup, tablespoon
 				},
 			],
 		},
