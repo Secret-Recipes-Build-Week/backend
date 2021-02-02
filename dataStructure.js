@@ -3,6 +3,8 @@ const userData = {
 	lastName: "",
 	email: "",
 	password: "",
+	id: 1,
+	uuid: "",
 	recipes: [
 		{
 			title: "",

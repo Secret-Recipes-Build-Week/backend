@@ -17,7 +17,6 @@ exports.up = function (knex) {
 			t.integer("userID")
 				.notNullable()
 				.unsigned()
-				.notNullable()
 				.references("id")
 				.inTable("users")
 				.onDelete("CASCADE")
@@ -26,6 +25,13 @@ exports.up = function (knex) {
 		.createTable("ingredients", (t) => {
 			t.increments();
 			t.string("name").notNullable();
+			t.integer("recipeID")
+				.notNullable()
+				.unsigned()
+				.references("id")
+				.inTable("recipes")
+				.onDelete("CASCADE")
+				.onUpdate("CASCADE");
 		})
 		.createTable("categories", (t) => {
 			t.increments();
@@ -33,48 +39,24 @@ exports.up = function (knex) {
 		})
 		.createTable("recipe_categories", (t) => {
 			t.increments();
-			t.string("recipeID")
+			t.integer("recipeID")
 				.notNullable()
 				.unsigned()
-				.notNullable()
 				.references("id")
 				.inTable("recipes")
 				.onDelete("CASCADE")
 				.onUpdate("CASCADE");
-			t.string("categoryID")
+			t.integer("categoryID")
 				.notNullable()
 				.unsigned()
-				.notNullable()
 				.references("id")
 				.inTable("categories")
 				.onDelete("RESTRICT")
 				.onUpdate("RESTRICT");
 		})
-		.createTable("recipe_ingredients", (t) => {
-			t.increments();
-			t.integer("quantity").notNullable();
-			t.string("unitType").notNullable();
-			t.string("recipeID")
-				.notNullable()
-				.unsigned()
-				.notNullable()
-				.references("id")
-				.inTable("recipes")
-				.onDelete("CASCADE")
-				.onUpdate("CASCADE");
-			t.string("ingredientID")
-				.notNullable()
-				.unsigned()
-				.notNullable()
-				.references("id")
-				.inTable("ingredients")
-				.onDelete("RESTRICT")
-				.onUpdate("RESTRICT");
-		})
 		.createTable("recipe_instructions", (t) => {
 			t.increments();
-			t.string("recipeID")
-				.notNullable()
+			t.integer("recipeID")
 				.unsigned()
 				.notNullable()
 				.references("id")
@@ -89,7 +71,6 @@ exports.up = function (knex) {
 exports.down = function (knex) {
 	return knex.schema
 		.dropTableIfExists("recipe_instructions")
-		.dropTableIfExists("recipe_ingredients")
 		.dropTableIfExists("recipe_categories")
 		.dropTableIfExists("categories")
 		.dropTableIfExists("ingredients")

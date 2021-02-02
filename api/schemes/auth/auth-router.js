@@ -17,7 +17,7 @@ router.post("/register", validateRegister, async (req, res, next) => {
 
 		credentials.password = hash;
 		const newUser = await Users.add({ ...credentials, uuid: uuidv4() });
-		res.status(201).json(newUser);
+		res.status(201).json({ message: "New User Created!" });
 	} catch (err) {
 		next(err);
 	}

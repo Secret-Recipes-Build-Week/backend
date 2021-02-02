@@ -74,7 +74,11 @@ exports.seed = function (knex) {
 			// Inserts seed entries
 			return knex("ingredients").insert(
 				ingredientTestData.map((row, index) => {
-					return { ...row, name: ingredients[index] };
+					return {
+						...row,
+						name: ingredients[index],
+						recipeID: Math.ceil(Math.random() * 16),
+					};
 				})
 			);
 		});
