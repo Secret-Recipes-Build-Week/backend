@@ -54,52 +54,54 @@ const findUserBy = async (id) => {
 const addRecipe = async (recipe, userID) => {
 	const { title, source, categories, ingredients, instructions } = recipe;
 
-	let recID = await db("recipes").insert({ title, source, userID });
-	recID = recID[0];
+	return await db.transaction(async (trx) => {
+		console.log("we made it");
+		let recID = await trx("recipes").insert({ title, source, userID });
+		recID = recID[0];
 
-	if (ingredients) {
-		let recipeIng = await db("ingredients").insert(
-			ingredients.map((ing) => {
-				return { name: ing, recipeID: recID };
-			})
-		);
-	}
-
-	if (instructions) {
-		let recipeIns = await db("recipe_instructions").insert(
-			instructions.map((ins) => {
-				return { step: ins.step, text: ins.text, recipeID: recID };
-			})
-		);
-	}
-
-	if (categories) {
-		const categoryIDs = [];
-
-		for (let i = 0; i < categories.length; i++) {
-			const checkCat = await db("categories")
-				.where({
-					category: categories[i],
+		if (ingredients) {
+			let recipeIng = await trx("ingredients").insert(
+				ingredients.map((ing) => {
+					return { name: ing, recipeID: recID };
 				})
-				.select("id");
-			if (checkCat.length > 0) {
-				categoryIDs.push(checkCat[0].id);
-			} else {
-				const newCatID = await db("categories").insert({
-					category: categories[i],
-				});
-				categoryIDs.push(newCatID[0]);
-			}
+			);
 		}
 
-		let recipeCat = await db("recipe_categories").insert(
-			categoryIDs.map((catID) => {
-				return { categoryID: catID, recipeID: recID };
-			})
-		);
-	}
+		if (instructions) {
+			let recipeIns = await trx("recipe_instructions").insert(
+				instructions.map((ins) => {
+					return { step: ins.step, text: ins.text, recipeID: recID };
+				})
+			);
+		}
 
-	return recID;
+		if (categories) {
+			const categoryIDs = [];
+
+			for (let i = 0; i < categories.length; i++) {
+				const checkCat = await trx("categories")
+					.where({
+						category: categories[i],
+					})
+					.select("id");
+				if (checkCat.length > 0) {
+					categoryIDs.push(checkCat[0].id);
+				} else {
+					const newCatID = await trx("categories").insert({
+						category: categories[i],
+					});
+					categoryIDs.push(newCatID[0]);
+				}
+			}
+
+			let recipeCat = await trx("recipe_categories").insert(
+				categoryIDs.map((catID) => {
+					return { categoryID: catID, recipeID: recID };
+				})
+			);
+		}
+		return recID;
+	});
 };
 
 module.exports = { findUserBy, addRecipe };
