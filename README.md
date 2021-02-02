@@ -20,6 +20,10 @@ Endpoint: /api/auth/login
 Endpoint: /api/user/:id
 params = {id}
 
+[POST] new recipe
+Endpoint: /api/user/:id/recipes
+Requires: {title: ""}
+
 
 
 Sample User 1:
