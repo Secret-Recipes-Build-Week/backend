@@ -20,7 +20,7 @@ async function validateRegister(req, res, next) {
 			res.status(401).json({ errorMessage: "invalid keys on request object" });
 		} else if (user) {
 			res
-				.status(401)
+				.status(409)
 				.json({ errorMessage: "An account with this email already exists" });
 		} else {
 			next();
