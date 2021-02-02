@@ -1,15 +1,6 @@
 const Utils = require("../utlities/utility");
 const db = require("../../../data/db-config");
 
-// const findUserBy = (param) => {
-// 	return Utils.findBy("users as u", param)
-// 		.join("recipes as r", {
-// 			"u.id": "r.userID",
-// 		})
-// 		.select("firstName", "lastName", "email", "uuid", "r.title")
-// 		.first();
-// };
-
 const findUserBy = async (id) => {
 	const userInfo = await db("users as u")
 		.select("id", "firstName", "lastName", "email", "uuid")
@@ -26,6 +17,7 @@ const findUserBy = async (id) => {
 			createdBy: `${userInfo.firstName} ${userInfo.lastName}`,
 		};
 	});
+
 	for (let i = 0; i < recipes.length; i++) {
 		let instructions = await db("recipe_instructions as rins")
 			.where({
