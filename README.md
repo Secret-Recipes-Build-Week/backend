@@ -133,27 +133,3 @@ Updates an instruction and Returns the _updated instruction_ object
 ### DELETE /api/instruction/:id
 
 Delete an instruction and Returns the _updated instructions_ object
-
-[POST] Sign Up/Register New User
-Endpoint: /api/auth/register
-body = {
-firstName: "",
-lastName: "",
-email: "",
-password: ""
-}
-
-[POST] login user
-Endpoint: /api/auth/login
-body = {
-email: "",
-password: ""
-}
-
-[GET] user information
-Endpoint: /api/user/:id
-params = {id}
-
-[POST] new recipe
-Endpoint: /api/user/:id/recipes
-Requires: {title: ""}
