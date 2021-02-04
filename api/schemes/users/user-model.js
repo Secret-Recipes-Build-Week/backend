@@ -28,7 +28,7 @@ const findUserBy = async (id) => {
 
 		let ingredients = await db("ingredients")
 			.where({ recipeID: recipes[i].id })
-			.select("name", "id");
+			.select("name", "id", "recipeID");
 
 		let categories = await db("categories as c")
 			.join("recipe_categories as rc", {
@@ -83,7 +83,7 @@ const findRecipesByUser = async (id) => {
 		//* Creates an array of recipe ingredients
 		let ingredients = await db("ingredients")
 			.where({ recipeID: recipes[i].id })
-			.select("name", "id");
+			.select("name", "id", "recipeID");
 
 		//* Creates an array of recipe categories
 		let categories = await db("categories as c")

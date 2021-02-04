@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const Recipes = require("./recipe-model");
+const Ingredients = require("../ingredients/ingredient-model");
 
 router.put("/:id", async (req, res, next) => {
 	try {
@@ -19,6 +20,11 @@ router.delete("/:id", async (req, res, next) => {
 	} catch (err) {
 		next(err);
 	}
+});
+
+router.get("/:id/ingredients", async (req, res, next) => {
+	const recIngList = await Ingredients.findIngByRecipe(req.params.id);
+	res.status(200).json(recIngList);
 });
 
 module.exports = router;
