@@ -11,4 +11,14 @@ router.put("/:id", async (req, res, next) => {
 	}
 });
 
+router.delete("/:id", async (req, res, next) => {
+	try {
+		const { id } = req.params;
+		const updatedRecipeList = await Recipes.remove(id);
+		res.status(200).json(updatedRecipeList);
+	} catch (err) {
+		next(err);
+	}
+});
+
 module.exports = router;

@@ -1,48 +1,58 @@
 const Utils = require("../utlities/utility");
 const db = require("../../../data/db-config");
+const Users = require("../users/user-model");
+
+const findRecipeBy = async (recID) => {
+	const recipe = await db("recipes as r")
+		.select("title", "id", "source", "private", "keywords")
+		.where("id", recID)
+		.first();
+
+	let newIns = await db("recipe_instructions")
+		.where({
+			recipeID: recipe.id,
+		})
+		.select("step", "text", "id");
+
+	let newIng = await db("ingredients")
+		.where({
+			recipeID: recipe.id,
+		})
+		.select("name", "id");
+
+	let newCat = await db("categories as c")
+		.join("recipe_categories as rc", {
+			"c.id": "rc.categoryID",
+		})
+		.where("rc.recipeID", recipe.id)
+		.select("category", "rc.id");
+
+	return {
+		...recipe,
+		categories: [...newCat],
+		ingredients: [...newIng],
+		instructions: [...newIns],
+	};
+};
 
 const update = async (changes, recipeID) => {
-	const {
-		title,
-		source,
-		keywords,
-		private,
-		categories,
-		ingredients,
-		instructions,
-	} = changes;
+	const { title, source, keywords, private } = changes;
 
 	let recipe = await db("recipes as r")
 		.where({ id: recipeID })
 		.update({ title, source, keywords, private });
 
-	// check ingredients associated to recipe.
-	// If existing ingredient name does not exist in incoming ingredients,
-	// delete existing ingredient
-
-	// check if incoming ingredient matches an existing recipe ingredients
-	// if so, add it to array,
-	// if not, insert ingredient
-
-	// const ingredientNamesToAdd = [];
-	// let checkIng = [];
-	// let matchedIng = []
-
-	// checkIng = await db("ingredients as i")
-	// 	.where("i.recipeID", recipeID)
-	//   .select("name");
-
-	// for (let i = 0; i < checkIng.length; i++){
-	//   ingredients.forEach((ing)=> {
-	//     if (checkIng[i].includes(ing)){
-	//       ingredientNamesToAdd.push(checkIng[i])
-	//     } else if (!checkIng[i].includes(ing)){
-	//       await db("ingredients as i").where("i.recipeID", recipeID).where({
-	//         name: checkIng[i]
-	//       }).del()
-	//     }
-	//   })
-	// }
+	return findRecipeBy(recipeID);
 };
 
-module.exports = { update };
+//? HERE IS THE RECIPE-MODEL
+const remove = async (recID) => {
+	let userID = await db("recipes").where("id", recID).select("userID").first();
+	//! Can these two statements join or will userID not exist after a deletion?
+	let query = await db("recipes").where("id", recID).del();
+	return query;
+	// console.log("me", userID);
+	// return Users.findRecipesByUser(7);
+};
+
+module.exports = { update, findRecipeBy, remove };

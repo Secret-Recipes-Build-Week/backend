@@ -1,5 +1,6 @@
 const db = require("../../../data/db-config");
 const Utils = require("../utlities/utility");
+const Recipes = require("../recipes/recipe-model");
 
 const findUserBy = async (id) => {
 	const userInfo = await db("users as u")
@@ -35,6 +36,7 @@ const findUserBy = async (id) => {
 			})
 			.where("rc.recipeID", recipes[i].id)
 			.select("category", "rc.id");
+
 		recipes[i] = {
 			...recipes[i],
 			categories: categories.map((c) => {
@@ -46,6 +48,62 @@ const findUserBy = async (id) => {
 	}
 
 	return { ...userInfo, recipes: [...recipes] };
+};
+
+const findRecipesByUser = async (id) => {
+	let recipes = await db("recipes as r")
+		.where("userID", id)
+		.join("users as u", { "r.userID": "u.id" })
+		.select(
+			"title",
+			"source",
+			"private",
+			"keywords",
+			"r.id",
+			"u.firstName",
+			"u.lastName"
+		);
+
+	recipes = recipes.map((recipe) => {
+		return {
+			...recipe,
+			createdBy: `${recipes.firstName} ${recipes.lastName}`,
+		};
+	});
+
+	for (let i = 0; i < recipes.length; i++) {
+		//* Creates an array of recipe instructions
+		let instructions = await db("recipe_instructions")
+			.where({
+				recipeID: recipes[i].id,
+			})
+			.select("step", "text", "id");
+
+		//* Creates an array of recipe ingredients
+		let ingredients = await db("ingredients")
+			.where({ recipeID: recipes[i].id })
+			.select("name", "id");
+
+		//* Creates an array of recipe categories
+		let categories = await db("categories as c")
+			.join("recipe_categories as rc", {
+				"c.id": "rc.categoryID",
+			})
+			.where("rc.recipeID", recipes[i].id)
+			.select("category", "rc.id");
+
+		//* Creates the shape of each user's recipe
+		recipes[i] = {
+			...recipes[i],
+			categories: categories.map((c) => {
+				return { category: c.category, id: c.id };
+			}),
+			ingredients,
+			instructions,
+		};
+	}
+
+	return [...recipes];
 };
 
 const addRecipe = async (recipe, userID) => {
@@ -144,6 +202,10 @@ const addRecipe = async (recipe, userID) => {
 		// `);
 		// return newRecipe[0];
 
+		//! Alternate Return
+		// const newRecipe = await Recipes.findRecipeBy(recID);
+
+		// return newRecipe;
 		/* -------------------------------------------------------------------------- */
 		/*                                     ^^^                                    */
 		/* -------------------------------------------------------------------------- */
@@ -181,4 +243,4 @@ const addRecipe = async (recipe, userID) => {
 	});
 };
 
-module.exports = { findUserBy, addRecipe };
+module.exports = { findUserBy, addRecipe, findRecipesByUser };
