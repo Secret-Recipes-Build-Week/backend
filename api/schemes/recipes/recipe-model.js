@@ -3,7 +3,7 @@ const db = require("../../../data/db-config");
 const Users = require("../users/user-model");
 
 const findRecipeBy = async (recID) => {
-	const recipe = await db("recipes as r")
+	const recipe = await db("recipes")
 		.select("title", "id", "source", "private", "keywords", "userID")
 		.where("id", recID)
 		.first();
