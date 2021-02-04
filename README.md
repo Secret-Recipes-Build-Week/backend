@@ -2,7 +2,7 @@
 
 Deployment url: "https://familyrecipe-app-backend.herokuapp.com/api"
 
-Sample Users
+**Sample Users**
 | email              | password     |
 | ------------------ | ------------ |
 | rloweth9@intel.com | MH8A0GkaOkQU |
