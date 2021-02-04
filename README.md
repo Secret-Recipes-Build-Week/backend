@@ -100,15 +100,7 @@ For the following endpoints:
 ### PUT /api/recipes/:id
 
 Updates _title, source, keywords,_ and _private_ recipe values
-Returns the _updated ingredient_ by id
-
-### POST /api/recipes/:id/ingredient
-
-Adds an ingredient to a recipe and returns the _updated ingredient_ list
-
-### POST /api/recipes/:id/instruction
-
-Adds a step to a recipe and returns the _updated instructions_ list
+Returns the _updated recipe_ by id
 
 ### DELETE /api/recipes/:id
 
@@ -118,6 +110,10 @@ Returns the updated list of recipes recipes for user
 
 ## Updating parts of a recipe
 
+### POST /api/recipes/:id/ingredient
+
+Adds an ingredient to a recipe and returns the _updated ingredient_ list
+
 ### PUT /api/ingredient/:id
 
 Update an ingredient and Returns the _updated ingredient_ by id
@@ -125,6 +121,12 @@ Update an ingredient and Returns the _updated ingredient_ by id
 ### DELETE /api/ingredient/:id
 
 Delete an ingredient and Returns the _updated ingredient_ by id
+
+- - - - - - - - - - - - - - - - - - - -
+
+### POST /api/recipes/:id/instruction
+
+Adds a step to a recipe and returns the _updated instructions_ list
 
 ### PUT /api/instruction/:id
 
