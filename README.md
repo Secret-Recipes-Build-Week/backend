@@ -1,14 +1,8 @@
 # Secret-Recipes-Backend Docs
 
 Deployment url: "https://familyrecipe-app-backend.herokuapp.com/api"
-Sample User 1:
-email: rloweth9@intel.com
-password: MH8A0GkaOkQU
 
-Sample User 2:
-email: lwhye4@diigo.com
-password: z35ZAJZzYNR
-
+Sample Users
 | email              | password     |
 | ------------------ | ------------ |
 | rloweth9@intel.com | MH8A0GkaOkQU |
