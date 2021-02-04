@@ -10,7 +10,7 @@ const findUserBy = async (id) => {
 
 	let recipes = await db("recipes as r")
 		.where({ userID: userInfo.id })
-		.select("title", "source", "private", "keywords", "id");
+		.select("title", "source", "private", "keywords", "id", "userID");
 
 	recipes = recipes.map((recipe) => {
 		return {
@@ -59,6 +59,7 @@ const findRecipesByUser = async (id) => {
 			"source",
 			"private",
 			"keywords",
+			"userID",
 			"r.id",
 			"u.firstName",
 			"u.lastName"
@@ -211,7 +212,7 @@ const addRecipe = async (recipe, userID) => {
 		/* -------------------------------------------------------------------------- */
 
 		const newRecipe = await trx("recipes as r")
-			.select("title", "id", "source", "private", "keywords")
+			.select("title", "id", "source", "private", "keywords", "userID")
 			.where("id", recID)
 			.first();
 
