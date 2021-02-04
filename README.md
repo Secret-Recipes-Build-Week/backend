@@ -110,6 +110,10 @@ Returns the _updated recipe_ by id
 
 Returns the updated list of recipes recipes for user
 
+### GET /api/recipes/:id/ingredients
+
+Returns an array of all recipe associated ingredients, (requires recipe ID as param)
+
      - - - - - - - - - 
 
 ## Updating parts of a recipe
@@ -118,11 +122,11 @@ Returns the updated list of recipes recipes for user
 
 Adds an ingredient to a recipe and returns the _updated ingredient_ list
 
-### PUT /api/ingredient/:id
+### PUT /api/ingredients/:id
 
 Update an ingredient and Returns the _updated ingredient_ by id
 
-### DELETE /api/ingredient/:id
+### DELETE /api/ingredients/:id
 
 Delete an ingredient and Returns the _updated ingredient_ by id
 
@@ -132,10 +136,10 @@ Delete an ingredient and Returns the _updated ingredient_ by id
 
 Adds a step to a recipe and returns the _updated instructions_ list
 
-### PUT /api/instruction/:id
+### PUT /api/instructions/:id
 
 Updates an instruction and Returns the _updated instruction_ object
 
-### DELETE /api/instruction/:id
+### DELETE /api/instructions/:id
 
 Delete an instruction and Returns the _updated instructions_ object
