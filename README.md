@@ -38,7 +38,7 @@ _returns recipe title, and keyword descriptions_
 
 ## Users
 
-These endpoints require you to be logged in with a token in your header
+    The below endpoints require you to be logged in with a token in your header
 **Requires Authentication**
 
 ### GET /api/user/:id
@@ -112,7 +112,7 @@ Adds a step to a recipe and returns the _updated instructions_ list
 
 Returns the updated list of recipes recipes for user
 
-##
+     ##
 
 ## Updating parts of a recipe
 
