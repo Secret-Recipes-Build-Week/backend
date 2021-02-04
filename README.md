@@ -112,7 +112,7 @@ Adds a step to a recipe and returns the _updated instructions_ list
 
 Returns the updated list of recipes recipes for user
 
-     ##
+     - - - - - - - - - 
 
 ## Updating parts of a recipe
 
