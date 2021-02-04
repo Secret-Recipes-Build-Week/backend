@@ -87,6 +87,8 @@ Returns an array of all public recipes that contain the parameter as a category
 
 Returns an array of all user recipes with the parameter {private: false}
 
+     - - - - - - - - - 
+
 ## Recipes
 
 For the following endpoints:
