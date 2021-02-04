@@ -1,5 +1,5 @@
-const Utils = require("../utlities/utility");
 const db = require("../../../data/db-config");
+const Utils = require("../utlities/utility");
 
 const findUserBy = async (id) => {
 	const userInfo = await db("users as u")
@@ -19,30 +19,27 @@ const findUserBy = async (id) => {
 	});
 
 	for (let i = 0; i < recipes.length; i++) {
-		let instructions = await db("recipe_instructions as rins")
+		let instructions = await db("recipe_instructions")
 			.where({
 				recipeID: recipes[i].id,
 			})
-			.select("step", "text");
+			.select("step", "text", "id");
 
-		let ingredients = await db("ingredients as i")
+		let ingredients = await db("ingredients")
 			.where({ recipeID: recipes[i].id })
-			.select("name");
-		// .join("recipe_ingredients as ring", {
-		// 	"i.id": "ring.ingredientID",
-		// })
-		// .where("ring.recipeID", recipes[i].id)
-		// .select("i.name", "ring.quantity", "ring.unitType");
+			.select("name", "id");
 
 		let categories = await db("categories as c")
 			.join("recipe_categories as rc", {
 				"c.id": "rc.categoryID",
 			})
 			.where("rc.recipeID", recipes[i].id)
-			.select("category");
+			.select("category", "rc.id");
 		recipes[i] = {
 			...recipes[i],
-			categories: categories.map((c) => c.category),
+			categories: categories.map((c) => {
+				return { category: c.category, id: c.id };
+			}),
 			ingredients,
 			instructions,
 		};
@@ -52,13 +49,28 @@ const findUserBy = async (id) => {
 };
 
 const addRecipe = async (recipe, userID) => {
-	const { title, source, categories, ingredients, instructions } = recipe;
+	const {
+		title,
+		source,
+		private,
+		keywords,
+		categories,
+		ingredients,
+		instructions,
+	} = recipe;
 
 	return await db.transaction(async (trx) => {
-		console.log("we made it");
-		let recID = await trx("recipes").insert({ title, source, userID });
+		//* Insert Recipe
+		let recID = await trx("recipes").insert({
+			title,
+			source,
+			private,
+			keywords,
+			userID,
+		});
 		recID = recID[0];
 
+		//* Insert Ingredients
 		if (ingredients) {
 			let recipeIng = await trx("ingredients").insert(
 				ingredients.map((ing) => {
@@ -67,6 +79,7 @@ const addRecipe = async (recipe, userID) => {
 			);
 		}
 
+		//* Insert Instructions
 		if (instructions) {
 			let recipeIns = await trx("recipe_instructions").insert(
 				instructions.map((ins) => {
@@ -78,6 +91,7 @@ const addRecipe = async (recipe, userID) => {
 		if (categories) {
 			const categoryIDs = [];
 
+			//* Check if category exists, if not insert category
 			for (let i = 0; i < categories.length; i++) {
 				const checkCat = await trx("categories")
 					.where({
@@ -94,13 +108,76 @@ const addRecipe = async (recipe, userID) => {
 				}
 			}
 
+			//*Insert recipe_category by categoryIDs
 			let recipeCat = await trx("recipe_categories").insert(
 				categoryIDs.map((catID) => {
 					return { categoryID: catID, recipeID: recID };
 				})
 			);
 		}
-		return recID;
+
+		/* -------------------------------------------------------------------------- */
+		/*                YOU WILL FIGURE THIS OUT YOUNG PADAWAN                      */
+		/* -------------------------------------------------------------------------- */
+
+		// const newRecipe = await trx.raw(`
+		// select
+		// 	r.*,
+		// 	(select json_group_array(json_object(
+		// 		'id', rc.id, 'category', c.category
+		// 		))
+		// 		from recipe_categories rc
+		// 		join categories c on rc.categoryID = c.id
+		// 		where rc.recipeID = r.id) as categories,
+		// 	(select json_group_array(json_object(
+		// 			'id', i.id, 'name', i.name
+		// 		))
+		// 		from ingredients i
+		// 		where i.recipeID = r.id) as ingredients,
+		// 	(select json_group_array(json_object(
+		// 			'id', ri.id, 'step', ri.step, 'text', ri.text
+		// 		))
+		// 		from recipe_instructions ri
+		// 		where ri.recipeID = r.id) as instructions
+		// from recipes r
+		// where r.id = ${recID}
+		// `);
+		// return newRecipe[0];
+
+		/* -------------------------------------------------------------------------- */
+		/*                                     ^^^                                    */
+		/* -------------------------------------------------------------------------- */
+
+		const newRecipe = await trx("recipes as r")
+			.select("title", "id", "source", "private", "keywords")
+			.where("id", recID)
+			.first();
+
+		let newIns = await trx("recipe_instructions")
+			.where({
+				recipeID: newRecipe.id,
+			})
+			.select("step", "text", "id");
+
+		let newIng = await trx("ingredients")
+			.where({
+				recipeID: newRecipe.id,
+			})
+			.select("name", "id");
+
+		let newCat = await trx("categories as c")
+			.join("recipe_categories as rc", {
+				"c.id": "rc.categoryID",
+			})
+			.where("rc.recipeID", newRecipe.id)
+			.select("category", "rc.id");
+
+		return {
+			...newRecipe,
+			categories: [...newCat],
+			ingredients: [...newIng],
+			instructions: [...newIns],
+		};
 	});
 };
 
