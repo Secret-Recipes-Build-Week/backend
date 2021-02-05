@@ -42,6 +42,16 @@ router.post("/:id/ingredient", async (req, res, next) => {
 	}
 });
 
+router.post("/:id/instruction", async (req, res, next) => {
+	try {
+		const { id } = req.params;
+		const newInstructions = await Recipes.addInstruction(req.body, id);
+		res.status(201).json(newInstructions);
+	} catch (err) {
+		next(err);
+	}
+});
+
 router.get("/:id/ingredients", async (req, res, next) => {
 	const recIngList = await Ingredients.findIngByRecipe(req.params.id);
 	res.status(200).json(recIngList);

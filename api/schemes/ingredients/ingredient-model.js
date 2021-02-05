@@ -4,12 +4,14 @@ const findIngredientBy = async (ingID) => {
 	const ingredient = await db("ingredients")
 		.select("name", "id")
 		.where("id", ingID);
+
+	return ingredient;
 };
 
 const update = async (changes, ingredientID) => {
 	const { name } = changes;
 
-	let recipe = await db("ingredients as i")
+	let ingredient = await db("ingredients as i")
 		.where({ id: ingredientID })
 		.update({ name });
 

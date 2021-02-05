@@ -64,7 +64,7 @@ exports.up = function (knex) {
 				.onDelete("CASCADE")
 				.onUpdate("CASCADE");
 			t.integer("step");
-			t.string("text");
+			t.string("text").notNullable();
 		});
 };
 
