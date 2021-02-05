@@ -101,6 +101,11 @@ For the following endpoints:
 | ---- | -------- | ------------- | ------- | -------------------------------------------- |
 | id   | yes      | URL Parameter | yes     | The ID of the recipe to perform an action on |
 
+
+### GET /api/recipes/:id
+
+Return a single recipe by id
+
 ### PUT /api/recipes/:id
 
 Updates _title, source, keywords,_ and _private_ recipe values
