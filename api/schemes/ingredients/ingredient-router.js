@@ -1,10 +1,10 @@
 const router = require("express").Router();
 const Ingredients = require("./ingredient-model");
 
-router.put("/:id", async (req, res, next) => {
+router.put("/", async (req, res, next) => {
 	try {
-		const ingredientUpdate = await Ingredients.update(req.body, req.params.id);
-		res.status(201).json(ingredientUpdate);
+		const newIngList = await Ingredients.update(req.body);
+		res.status(201).json(newIngList);
 	} catch (err) {
 		next(err);
 	}
