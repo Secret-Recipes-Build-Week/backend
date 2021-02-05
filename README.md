@@ -2,12 +2,12 @@
 
 Deployment url: "https://familyrecipe-app-backend.herokuapp.com/api"
 
-   **Sample Users**
-| email              | password     |
+**Sample Users**
+| email | password |
 | ------------------ | ------------ |
 | rloweth9@intel.com | MH8A0GkaOkQU |
-| lwhye4@diigo.com   | z35ZAJZzYNR  |
-| fgegay2@cpanel.net | OQPeGs9y     |
+| lwhye4@diigo.com | z35ZAJZzYNR |
+| fgegay2@cpanel.net | OQPeGs9y |
 
 ## Authorization
 
@@ -39,6 +39,7 @@ _returns recipe title, and keyword descriptions_
 ## Users
 
     All of the below endpoints require you to be logged in with a token in your header
+
 **Requires Authentication**
 
 ### GET /api/user/:id
@@ -60,7 +61,6 @@ User Object:
 
 Returns an array of all user associated recipes (see recipe object table below for shape)
 
-
 ### POST /api/user/:id/recipes
 
 Creates and returns a newly created _recipe_
@@ -71,16 +71,17 @@ Recipe Object:
 | ------------ | -------- | ------------- | ------- | ------------------------------------------------------ |
 | id           | yes      | URL Parameter | yes     | The Id of the user adding a recipe                     |
 | title        | yes      | string        | no      | The title of the recipe                                |
-| source       | no       | string        | no      | The source of the recipe                                |
+| source       | no       | string        | no      | The source of the recipe                               |
 | private      | no       | boolean       | no      | Recipe is viewable to all users (defaults to false)    |
-| keywords     | no       | string        | no      | keyword/description of the recipe                                 |
-| userID     | no       | integer        | yes      | userID that the recipe is associated to                                 |
+| keywords     | no       | string        | no      | keyword/description of the recipe                      |
+| userID       | no       | integer       | yes     | userID that the recipe is associated to                |
 | categories   | no       | Array         | no      | Array of strings, categories of recipe                 |
 | ingredients  | no       | Array         | no      | Array of strings ex: ["1lb beef", "2 buns"]            |
 | instructions | no       | Array         | no      | Array of objects ex: [{step: 1, text: "Preheat Oven"}] |
 
     - - - - - - - -
     The following three GET request do NOT have routes made:
+
 ### GET /api/recipes/
 
 Returns an array of all user recipes with the parameter {private: false}
@@ -93,8 +94,7 @@ Returns an array of all public recipes that include the parameter in its title
 
 Returns an array of all public recipes that contain the parameter as a category
 
-
-     - - - - - - - - - 
+     - - - - - - - - -
 
 ## Recipes
 
@@ -103,7 +103,6 @@ For the following endpoints:
 | Name | Requried | Type          | Unique? | Description                                  |
 | ---- | -------- | ------------- | ------- | -------------------------------------------- |
 | id   | yes      | URL Parameter | yes     | The ID of the recipe to perform an action on |
-
 
 ### GET /api/recipes/:id
 
@@ -122,7 +121,7 @@ Returns the updated list of recipes recipes for user
 
 Returns an array of all recipe associated ingredients, (requires recipe ID as param)
 
-     - - - - - - - - - 
+     - - - - - - - - -
 
 ## Updating parts of a recipe
 
@@ -132,22 +131,22 @@ Adds an ingredient to a recipe and returns the _updated ingredient_ list
 
 ### PUT /api/ingredients/
 
-Requires an array of the following objects sent in the body*:
+Requires an array of the following objects sent in the body\*:
 
-| Name | Requried | Type          | Unique? | Description                                  |
-| ---- | -------- | ------------- | ------- | -------------------------------------------- |
-| id   | yes      | integer | yes     | The ID of the ingredient being updated |
-| name   | yes      | string | yes     | The name of the ingredient being updated |
-| recipeID   | yes      | integer | yes     | The name of the ingredient being updated |
+| Name     | Requried | Type    | Unique? | Description                              |
+| -------- | -------- | ------- | ------- | ---------------------------------------- |
+| id       | yes      | integer | yes     | The ID of the ingredient being updated   |
+| name     | yes      | string  | yes     | The name of the ingredient being updated |
+| recipeID | yes      | integer | yes     | The name of the ingredient being updated |
 
-Returns the _updated ingredient list_ 
+Returns the _updated ingredient list_
 All ingredients must be of the same recipeID
 
 ### DELETE /api/ingredients/:id
 
 Delete an ingredient and Returns the _updated ingredient_ by id
 
-- - - - - - - - - - - - - - - - - - - -
+---
 
 ### POST /api/recipes/:id/instruction
 
