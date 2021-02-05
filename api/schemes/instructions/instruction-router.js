@@ -3,7 +3,7 @@ const Instructions = require("./instruction-model");
 
 router.put("/:id", async (req, res, next) => {
 	try {
-		const insUpdate = await Instructions.update(req.params.id);
+		const insUpdate = await Instructions.update(req.body, req.params.id);
 		res.status(201).json(insUpdate);
 	} catch (err) {
 		next(err);

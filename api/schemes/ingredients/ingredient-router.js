@@ -3,7 +3,7 @@ const Ingredients = require("./ingredient-model");
 
 router.put("/:id", async (req, res, next) => {
 	try {
-		const ingredientUpdate = await Ingredients.update(req.params.id);
+		const ingredientUpdate = await Ingredients.update(req.body, req.params.id);
 		res.status(201).json(ingredientUpdate);
 	} catch (err) {
 		next(err);
