@@ -1,12 +1,10 @@
 const db = require("../../../data/db-config");
 
 const update = async (insList) => {
-	for (let i = 0; i < insList; i++) {
+	for (let i = 0; i < insList.length; i++) {
 		let updatedIns = await db("recipe_instructions as ri")
-			.where({
-				id: insList[i].id,
-			})
-			.update({ text: insList[i].text, step: insList[i].step });
+			.where({ id: insList[i].id })
+			.update({ text: insList[i].text });
 	}
 
 	let recID = insList[0].recipeID;
