@@ -56,21 +56,14 @@ const findRecipesByUser = async (id) => {
 		.join("users as u", { "r.userID": "u.id" })
 		.select(
 			"title",
+			"r.id",
 			"source",
 			"private",
 			"keywords",
 			"userID",
-			"r.id",
 			"u.firstName",
 			"u.lastName"
 		);
-
-	recipes = recipes.map((recipe) => {
-		return {
-			...recipe,
-			createdBy: `${recipes.firstName} ${recipes.lastName}`,
-		};
-	});
 
 	for (let i = 0; i < recipes.length; i++) {
 		//* Creates an array of recipe instructions

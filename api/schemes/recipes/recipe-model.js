@@ -1,6 +1,7 @@
 const Utils = require("../utlities/utility");
 const db = require("../../../data/db-config");
 const Users = require("../users/user-model");
+const Ingredients = require("../ingredients/ingredient-model");
 
 const findRecipeBy = async (recID) => {
 	const recipe = await db("recipes")
@@ -45,14 +46,19 @@ const update = async (changes, recipeID) => {
 	return findRecipeBy(recipeID);
 };
 
-//? HERE IS THE RECIPE-MODEL
 const remove = async (recID) => {
-	let userID = await db("recipes").where("id", recID).select("userID").first();
-	//! Can these two statements join or will userID not exist after a deletion?
 	let query = await db("recipes").where("id", recID).del();
 	return query;
-	// console.log("me", userID);
-	// return Users.findRecipesByUser(7);
 };
 
-module.exports = { update, findRecipeBy, remove };
+const addIngredient = async (ingredient, recipeID) => {
+	const { name } = ingredient;
+	let recipeIng = await db("ingredients").insert({
+		name,
+		recipeID,
+	});
+
+	return Ingredients.findIngByRecipe(recipeID);
+};
+
+module.exports = { update, findRecipeBy, remove, addIngredient };
