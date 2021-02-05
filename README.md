@@ -141,7 +141,7 @@ Requires an array of the following objects sent in the body*:
 | recipeID   | yes      | integer | yes     | The name of the ingredient being updated |
 
 Returns the _updated ingredient list_ 
-*All ingredients must be of the same recipeID
+All ingredients must be of the same recipeID
 
 ### DELETE /api/ingredients/:id
 
