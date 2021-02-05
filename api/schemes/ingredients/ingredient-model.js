@@ -8,14 +8,16 @@ const findIngredientBy = async (ingID) => {
 	return ingredient;
 };
 
-const update = async (changes, ingredientID) => {
-	const { name } = changes;
+const update = async (ingList) => {
+	for (let i = 0; i < ingList.length; i++) {
+		let updatedIng = await db("ingredients as i")
+			.where({ id: ingList[i].id })
+			.update({ name: ingList[i].name });
+	}
 
-	let ingredient = await db("ingredients as i")
-		.where({ id: ingredientID })
-		.update({ name });
+	let recID = ingList[0].recipeID;
 
-	return findIngredientBy(ingredientID);
+	return findIngByRecipe(recID);
 };
 
 const remove = async (ingID) => {

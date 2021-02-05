@@ -12,13 +12,13 @@ const findRecipeBy = async (recID) => {
 		.where({
 			recipeID: recipe.id,
 		})
-		.select("step", "text", "id");
+		.select("step", "text", "id", "recipeID");
 
 	let newIng = await db("ingredients")
 		.where({
 			recipeID: recipe.id,
 		})
-		.select("name", "id");
+		.select("name", "id", "recipeID");
 
 	let newCat = await db("categories as c")
 		.join("recipe_categories as rc", {
