@@ -1,7 +1,6 @@
-const Utils = require("../utlities/utility");
 const db = require("../../../data/db-config");
-const Users = require("../users/user-model");
 const Ingredients = require("../ingredients/ingredient-model");
+const Instructions = require("../instructions/instruction-model");
 
 const findRecipeBy = async (recID) => {
 	const recipe = await db("recipes")
@@ -61,4 +60,21 @@ const addIngredient = async (ingredient, recipeID) => {
 	return Ingredients.findIngByRecipe(recipeID);
 };
 
-module.exports = { update, findRecipeBy, remove, addIngredient };
+const addInstruction = async (instruction, recipeID) => {
+	const { step, text } = instruction;
+	let recipeIns = await db("recipe_instructions").insert({
+		step,
+		text,
+		recipeID,
+	});
+
+	return Instructions.findInsByRecipe(recipeID);
+};
+
+module.exports = {
+	update,
+	findRecipeBy,
+	remove,
+	addIngredient,
+	addInstruction,
+};
