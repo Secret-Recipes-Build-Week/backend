@@ -130,9 +130,18 @@ Returns an array of all recipe associated ingredients, (requires recipe ID as pa
 
 Adds an ingredient to a recipe and returns the _updated ingredient_ list
 
-### PUT /api/ingredients/:id
+### PUT /api/ingredients/
 
-Update an ingredient and Returns the _updated ingredient_ by id
+Requires an array of the following objects sent in the body*:
+
+| Name | Requried | Type          | Unique? | Description                                  |
+| ---- | -------- | ------------- | ------- | -------------------------------------------- |
+| id   | yes      | integer | yes     | The ID of the ingredient being updated |
+| name   | yes      | string | yes     | The name of the ingredient being updated |
+| recipeID   | yes      | integer | yes     | The name of the ingredient being updated |
+
+Returns the _updated ingredient list_ 
+*All ingredients must be of the same recipeID
 
 ### DELETE /api/ingredients/:id
 
@@ -144,7 +153,7 @@ Delete an ingredient and Returns the _updated ingredient_ by id
 
 Adds a step to a recipe and returns the _updated instructions_ list
 
-### PUT /api/instructions/:id
+### PUT /api/instructions/
 
 Updates an instruction and Returns the _updated instruction_ object
 
