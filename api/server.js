@@ -4,6 +4,7 @@ const cors = require("cors");
 
 const restrict = require("./middleware/restricted");
 const AuthRouter = require("./schemes/auth/auth-router");
+const PreviewRouter = require("./schemes/preview/preview-router");
 const UserRouter = require("./schemes/users/user-router");
 const RecipeRouter = require("./schemes/recipes/recipe-router");
 const CategoryRouter = require("./schemes/categories/category-router");
@@ -15,6 +16,7 @@ server.use(helmet());
 server.use(cors());
 
 server.use("/api/auth", AuthRouter);
+server.use("/api/preview", PreviewRouter);
 server.use("/api/user", restrict, UserRouter);
 server.use("/api/recipes", restrict, RecipeRouter);
 server.use("/api/categories", restrict, CategoryRouter);
