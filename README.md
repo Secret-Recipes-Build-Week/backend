@@ -38,7 +38,7 @@ _returns recipe title, and keyword descriptions_
 
 ## Users
 
-    The below endpoints require you to be logged in with a token in your header
+    All of the below endpoints require you to be logged in with a token in your header
 **Requires Authentication**
 
 ### GET /api/user/:id
