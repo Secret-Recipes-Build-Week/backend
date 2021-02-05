@@ -58,23 +58,29 @@ User Object:
 
 ### GET /api/user/:id/recipes
 
-Returns an array of all user associated recipes
+Returns an array of all user associated recipes (see recipe object table below for shape)
+
 
 ### POST /api/user/:id/recipes
 
 Creates and returns a newly created _recipe_
 
+Recipe Object:
+
 | Name         | Requried | Type          | Unique? | Description                                            |
 | ------------ | -------- | ------------- | ------- | ------------------------------------------------------ |
 | id           | yes      | URL Parameter | yes     | The Id of the user adding a recipe                     |
 | title        | yes      | string        | no      | The title of the recipe                                |
-| source       | no       | string        | no      | The title of the recipe                                |
+| source       | no       | string        | no      | The source of the recipe                                |
 | private      | no       | boolean       | no      | Recipe is viewable to all users (defaults to false)    |
-| keywords     | no       | string        | no      | keywords to the recipe                                 |
+| keywords     | no       | string        | no      | keyword/description of the recipe                                 |
+| userID     | no       | integer        | yes      | userID that the recipe is associated to                                 |
 | categories   | no       | Array         | no      | Array of strings, categories of recipe                 |
 | ingredients  | no       | Array         | no      | Array of strings ex: ["1lb beef", "2 buns"]            |
 | instructions | no       | Array         | no      | Array of objects ex: [{step: 1, text: "Preheat Oven"}] |
 
+    - - - - - - - -
+    The following three GET request do NOT have routes made:
 ### GET /api/recipes/
 
 Returns an array of all user recipes with the parameter {private: false}
@@ -87,9 +93,6 @@ Returns an array of all public recipes that include the parameter in its title
 
 Returns an array of all public recipes that contain the parameter as a category
 
-### GET /api/recipes/
-
-Returns an array of all user recipes with the parameter {private: false}
 
      - - - - - - - - - 
 
